@@ -1,8 +1,14 @@
 package com.example.sbmaproject
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -11,6 +17,7 @@ import com.example.sbmaproject.ui.FeedFragment
 import com.example.sbmaproject.ui.HomeFragment
 import com.example.sbmaproject.ui.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -50,20 +57,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var fbAuth = FirebaseAuth.getInstance()
+
         //Setup fragments
         homeFragment = HomeFragment()
         feedFragment = FeedFragment()
         profileFragment = ProfileFragment()
 
-        //First show the Home Fragment
-        fragmentManager = supportFragmentManager
-        fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.main_container, homeFragment)
-        fragmentTransaction.commit()
+        if(fbAuth.currentUser == null){
 
-        //Set the home item selected and add a listener for bottom navigation bar
-        bottom_navigation_view.selectedItemId = R.id.home
-        bottom_navigation_view.setOnNavigationItemSelectedListener(onNavigationItemSelected)
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+
+        } else {
+
+            //First show the Home Fragment
+            fragmentManager = supportFragmentManager
+            fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.add(R.id.main_container, homeFragment)
+            fragmentTransaction.commit()
+
+            //Set the home item selected and add a listener for bottom navigation bar
+            bottom_navigation_view.selectedItemId = R.id.home
+            bottom_navigation_view.setOnNavigationItemSelectedListener(onNavigationItemSelected)
+        }
     }
 
     //Private function that handles the fragment transaction
