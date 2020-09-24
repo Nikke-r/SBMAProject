@@ -17,6 +17,8 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -31,28 +33,11 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val logOutButton1 = view.btnLogout
-
-        logOutButton1.setOnClickListener {
-            showMessage(view, "Logging Out...")
-            signOut()
-            val intent = Intent (getActivity(), LoginActivity::class.java)
-            getActivity()?.startActivity(intent)
-            }
-
         fbAuth.addAuthStateListener {
             if (fbAuth.currentUser == null) {
                 //ohjaa loginii
             }
         }
         return view
-    }
-
-    fun signOut(){
-        fbAuth.signOut()
-    }
-
-    fun showMessage(view: View, message: String){
-        Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }
