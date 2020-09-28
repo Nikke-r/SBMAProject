@@ -5,14 +5,34 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="feed">Feed</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Exercise view -->
+    <string name="mapbox_access_token">sk.eyJ1Ijoibmlra2VyIiwiYSI6ImNrZmZlcnozaDA5bmcyeGxkMHJveGtrMDUifQ.EaxCasJS_REe2N_3F0EApQ</string>
+    <string name="new_exercise">New</string>
+    <string name="start_exercise">Start!</string>
+    <string name="end_exercise">Stop</string>
+    <string name="location_needed">You\'ll need to allow access to location</string>
+    <string name="distance">Distance</string>
+    <string name="time">Time</string>
+    <string name="speed">Speed</string>
+    <string name="distance_value">%1$.2f km</string>
+    <string name="time_value">%1$s</string>
+    <string name="speed_value">%1$.2f km/h</string>
+    <string name="steps">Steps</string>
+    <string name="steps_value">%1$s</string>
+    <string name="exit_exercise">Exit exercise?</string>
+    <string name="verification_text">Are you sure you want to end the exercise?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Exercise result view -->
+    <string name="post">Post!</string>
+    <string name="picture_description">Picture of your route</string>
+
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
     <!-- Twitter consumer key and secret -->
     <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>
     <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>
-
-
 </resources>
