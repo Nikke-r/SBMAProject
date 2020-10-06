@@ -7,12 +7,15 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.RecyclerView
 import com.example.sbmaproject.ui.ExerciseActivity
 import com.example.sbmaproject.ui.FeedFragment
 import com.example.sbmaproject.ui.HomeFragment
 import com.example.sbmaproject.ui.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -59,11 +62,10 @@ class MainActivity : AppCompatActivity() {
         feedFragment = FeedFragment()
         profileFragment = ProfileFragment()
 
-        if(fbAuth.currentUser == null){
-
+        if(Firebase.auth.currentUser == null){
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-
+            finish()
         } else {
 
             //First show the Home Fragment
@@ -76,12 +78,6 @@ class MainActivity : AppCompatActivity() {
             bottom_navigation_view.selectedItemId = R.id.home
             bottom_navigation_view.setOnNavigationItemSelectedListener(onNavigationItemSelected)
         }
-
-        /*//First show the Home Fragment
-        fragmentManager = supportFragmentManager
-        fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.main_container, homeFragment)
-        fragmentTransaction.commit()*/
 
         //Set the home item selected and add a listener for bottom navigation bar
         bottom_navigation_view.selectedItemId = R.id.home

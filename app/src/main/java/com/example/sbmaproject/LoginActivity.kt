@@ -36,20 +36,32 @@ class LoginActivity: AppCompatActivity() {
             btnLogin.setOnClickListener { view ->
                 Log.d("logintag", email.toString())
                 Log.d("logintag", password.toString())
-                signIn(view, usernameFromInput.toString(), passwordFromInput)
+                if (passwordFromInput != null) {
+                    signIn(view, usernameFromInput.toString(), passwordFromInput)
+                }
 
+            }
+
+            toRegisterBtn.setOnClickListener {
+                val registerIntent = Intent(this, RegisterActivity::class.java)
+                startActivity(registerIntent)
+            }
+
+            toResetPasswordBtn.setOnClickListener {
+                val resetPwIntent = Intent(this, ResetPasswordActivity::class.java)
+                startActivity(resetPwIntent)
             }
         }
 
     fun signIn(view: View, email: String, password: Editable){
-        showMessage(view,"Authenticating...")
+        showMessage(view,getString(R.string.authenticating))
 
         fbAuth.signInWithEmailAndPassword(email, password.toString()).addOnCompleteListener(this, OnCompleteListener<AuthResult> { task ->
             if(task.isSuccessful){
                 var intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("id", fbAuth.currentUser?.email)
                 startActivity(intent)
-
+                finish()
             }else{
                 showMessage(view,"Error: ${task.exception?.message}")
             }
