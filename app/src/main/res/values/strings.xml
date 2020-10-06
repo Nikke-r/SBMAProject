@@ -20,6 +20,8 @@
     <string name="speed_value">%1$.2f km/h</string>
     <string name="steps">Steps</string>
     <string name="steps_value">%1$s</string>
+    <string name="highest_speed">Highest speed</string>
+    <string name="average_speed">Average speed</string>
     <string name="exit_exercise">Exit exercise?</string>
     <string name="verification_text">Are you sure you want to end the exercise?</string>
     <string name="yes">Yes</string>
@@ -28,6 +30,30 @@
     <!-- Exercise result view -->
     <string name="post">Post!</string>
     <string name="picture_description">Picture of your route</string>
+    <string name="success">Exercise successfully saved!</string>
+    <string name="failure">Exercise could not be saved: %1$s</string>
+
+    <!-- Register Screen -->
+    <string name="display_name_field">Username</string>
+    <string name="email_field">Email</string>
+    <string name="password_field">Password</string>
+    <string name="re_enter_password_field">Password again</string>
+    <string name="register">Register!</string>
+    <string name="already_have_an_account">Already have an account? Login!</string>
+    <string name="cant_be_empty">Field cannot be empty!</string>
+    <string name="password_mismatch">Passwords does not match!</string>
+    <string name="register_in_progress">Registering...</string>
+    <string name="register_successful">Register successful!</string>
+
+    <!-- Login Screen -->
+    <string name="login">Login</string>
+    <string name="need_an_account">Need an account? Register!</string>
+    <string name="forgot_password">Forgot a password?</string>
+    <string name="authenticating">Authenticating...</string>
+
+    <!-- Reset password screen -->
+    <string name="reset_password">Reset</string>
+    <string name="reset_password_title">Reset password</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
