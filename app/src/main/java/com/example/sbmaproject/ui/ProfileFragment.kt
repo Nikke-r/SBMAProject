@@ -64,6 +64,9 @@ class ProfileFragment : Fragment() {
                 .collection("exercises")
                 .get()
                 .addOnSuccessListener {
+
+                    exerciseList?.clear()
+
                     for (document in it.documents) {
                         val exercise = document.toObject<Exercise>()
                         exerciseList?.add(exercise!!)
