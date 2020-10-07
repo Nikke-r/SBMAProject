@@ -13,6 +13,7 @@ import com.example.sbmaproject.LoginActivity
 import com.example.sbmaproject.R
 import com.example.sbmaproject.classes.Exercise
 import com.example.sbmaproject.classes.ExerciseRecyclerViewAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -40,7 +41,23 @@ class ProfileFragment : Fragment() {
             val usernamefield = view.usernameTextfield
             usernamefield.text = fbAuth.currentUser?.email ?: "No username"
 
+
         fetchExerciseData()
+
+        val logOutButton1 = view.logOutBtn
+
+        logOutButton1.setOnClickListener {
+            showMessage(view, "Logging Out...")
+            signOut()
+            val intent = Intent (getActivity(), LoginActivity::class.java)
+            getActivity()?.startActivity(intent)
+        }
+
+        fbAuth.addAuthStateListener {
+            if (fbAuth.currentUser == null) {
+                //ohjaa loginii
+            }
+        }
 
         return view
     }
@@ -84,5 +101,13 @@ class ProfileFragment : Fragment() {
                         .show()
                 }
         }
+    }
+
+    fun signOut(){
+        fbAuth.signOut()
+    }
+
+    fun showMessage(view: View, message: String){
+        Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }

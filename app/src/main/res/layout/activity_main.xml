@@ -15,7 +15,8 @@
         android:text="@string/new_exercise"
         app:icon="@drawable/ic_run"
         app:layout_constraintBottom_toBottomOf="@+id/main_container"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/colorPrimaryDark"/>
 
     <FrameLayout
         android:id="@+id/main_container"

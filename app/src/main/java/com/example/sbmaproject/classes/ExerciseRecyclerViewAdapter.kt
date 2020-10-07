@@ -25,6 +25,7 @@ class ExerciseRecyclerViewAdapter(
         if (exercise != null) {
             holder.itemView.displayName.text = exercise.username
             holder.itemView.dateText.text = exercise.date.toString()
+            holder.itemView.distanceText.text = exercise.distance
         }
     }
 

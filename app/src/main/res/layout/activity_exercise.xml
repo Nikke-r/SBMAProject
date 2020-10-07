@@ -16,10 +16,11 @@
         android:id="@+id/exerciseFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_start_exercise"
         app:layout_anchor="@id/bottomSheet"
-        app:layout_anchorGravity="top|center" />
+        app:layout_anchorGravity="top|center"
+        app:srcCompat="@drawable/ic_start_exercise" />
 
     <LinearLayout
         android:id="@+id/bottomSheet"

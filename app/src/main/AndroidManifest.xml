@@ -21,6 +21,7 @@
         <activity android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity" />
         <activity android:name=".ui.ExerciseResultActivity" />
+        <activity android:name=".AddGoalActivity" />
         <activity
             android:name=".ui.ExerciseActivity"
             android:parentActivityName=".MainActivity" />
