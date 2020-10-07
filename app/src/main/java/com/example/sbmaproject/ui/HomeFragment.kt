@@ -170,7 +170,7 @@ class HomeFragment : Fragment() {
                                 val progress = (d * 100).toInt()
                                 pieChart.progress = progress
                             } else if (totalvalue >= 1) {
-                                cheerText.text = "You have achieved your goal!"
+                                cheerText.text = "You have achieved your goal of " + currentGoalAsDouble.toString() + " km! Set a new higher one now!"
 
                                 // Calculate the slice size and update the pie chart:
                                 val pieChart: ProgressBar = stats_progressbar
@@ -178,6 +178,9 @@ class HomeFragment : Fragment() {
                                 val progress = (d * 100).toInt()
                                 pieChart.progress = progress
 
+                                //delete the goal after its done. currently not doing it only updates
+                                //when user sets a new goal
+                                /*
                                 val goal = Goal(
                                     user?.displayName ?: "",
                                     user?.uid ?: "",
@@ -206,7 +209,7 @@ class HomeFragment : Fragment() {
                                                 .collection("goals")
                                                 .add(goal)
                                         }
-                                }
+                                } */
                                 } else {
                                     Log.d("TAGPIE", totalvalue.toString())
                                     pietotal.text =
