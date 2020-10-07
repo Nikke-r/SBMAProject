@@ -7,61 +7,53 @@
     tools:context=".ui.HomeFragment">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="46dp"
-        android:text="@string/home"
-        app:layout_constraintStart_toStartOf="@+id/setGoal"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Doughnut chart starts here -->
 
+    <!-- ProgressBar that represents a total of 100% -->
     <Button
         android:id="@+id/setGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
         android:text="Set Goal"
+        app:layout_constraintBottom_toTopOf="@+id/background_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="6dp"/>
 
-    <!-- Doughnut chart starts here -->
+    <ProgressBar
+        android:id="@+id/background_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/stats_full"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- ProgressBar that represents a total of 100% -->
-        <ProgressBar
-            android:id="@+id/background_progressbar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="100"
-            android:progressDrawable="@drawable/stats_full"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!-- ProgressBar that represents a chart slice, where "android:progress" is the % value of the slice -->
+    <ProgressBar
+        android:id="@+id/stats_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="75"
+        android:progressDrawable="@drawable/stats_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- ProgressBar that represents a chart slice, where "android:progress" is the % value of the slice -->
-        <ProgressBar
-            android:id="@+id/stats_progressbar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="75"
-            android:progressDrawable="@drawable/stats_progress"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- The text that goes in a center of the chart -->
+    <!-- The text that goes in a center of the chart -->
     <TextView
         android:id="@+id/pietotal"
         android:layout_width="wrap_content"
@@ -73,6 +65,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Doughnut chart ends here -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
