@@ -5,6 +5,7 @@
         <item name="colorPrimary">#00EA71</item>
         <item name="colorPrimaryDark">#00EA71</item>
         <item name="colorAccent">#00EA71</item>
+        <item name="android:fontFamily">@fontt/SansitaSwashed.ttf</item>
     </style>
 
 </resources>
