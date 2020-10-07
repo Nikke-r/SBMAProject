@@ -1,11 +1,9 @@
 package com.example.sbmaproject.ui
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.sbmaproject.MainActivity
 import com.example.sbmaproject.R
@@ -25,7 +23,6 @@ import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import kotlinx.android.synthetic.main.activity_exercise_result.*
 import java.util.*
-import kotlin.math.roundToLong
 
 class ExerciseResultActivity : AppCompatActivity() {
 
@@ -75,7 +72,7 @@ class ExerciseResultActivity : AppCompatActivity() {
         stepsResultLabel.text = steps
         averageSpeedResultLabel.text = getString(R.string.speed_value, averageSpeed)
 
-        postToFbBtn.setOnClickListener {
+        postGoalButton.setOnClickListener {
             postResultsToFirebase()
         }
 
