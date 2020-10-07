@@ -39,7 +39,7 @@ class ProfileFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_profile, container, false)
 
             val usernamefield = view.usernameTextfield
-            usernamefield.text = fbAuth.currentUser?.email ?: "No username"
+            usernamefield.text = ("Hello, " + fbAuth.currentUser?.email ?: "No username")
 
 
         fetchExerciseData()
