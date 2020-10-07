@@ -3,11 +3,13 @@ package com.example.sbmaproject.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.sbmaproject.AddGoalActivity
 import com.example.sbmaproject.R
 import com.example.sbmaproject.classes.Exercise
@@ -17,11 +19,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.exercise_result_item.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlin.math.log
-import kotlin.properties.Delegates
+import java.lang.String
 
 
 //This whole class looks currently horrible
@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
     private var currentlyRunDistance: Double = 0.00
     private var currentGoalAsDouble: Double = 0.00
     val user = Firebase.auth.currentUser
+    var totalvalue: Double = 0.00
 
     @ExperimentalStdlibApi
     override fun onCreateView(
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
         fetchGoalData2()
         fetchCurrentExerciseDistance()
         compareResult()
+        //updateChart()
 
         val setGoalButton = view.setGoal
 
@@ -101,7 +103,6 @@ class HomeFragment : Fragment() {
                         if (goal != null) {
                             Log.d("TAGYESS", goal.distance.toString())
                             currentGoalAsDouble = goal.distance.toDouble()
-                            currentGoal.text = currentGoalAsDouble.toString()
                         }
                     }
             }
@@ -142,7 +143,44 @@ class HomeFragment : Fragment() {
                         }
                     }
 
-                    currentlyRun.text = currentlyRunDistance.toString()
+                        //WTF ??
+                            database.collection("users")
+                                .document(currentUser.uid)
+                                .collection("goals")
+                                .get()
+                                .addOnSuccessListener {
+
+                                    for (document in it.documents) {
+                                        val goal = document.toObject<Goal>()
+
+                                        //if user has goal set it to home
+                                        if (goal != null) {
+                                            Log.d("TAGYESS", goal.distance)
+                                            currentGoalAsDouble = goal.distance.toDouble()
+                                        }
+                                    }
+                                    Log.d("TAGRUN", currentlyRunDistance.toString())
+                                    totalvalue = currentlyRunDistance / currentGoalAsDouble
+
+                                    Log.d("TAGFIN", currentGoalAsDouble.toString())
+                                    if (currentGoalAsDouble.toString() == "0.0") {
+                                        pietotal.text = "No goal set"
+                                        val pieChart: ProgressBar = stats_progressbar
+                                        val d = 0
+                                        val progress = (d * 100).toInt()
+                                        pieChart.progress = progress
+                                    } else {
+                                        Log.d("TAGPIE", totalvalue.toString())
+                                        pietotal.text =
+                                            (currentlyRunDistance.toString() + "/" + currentGoalAsDouble.toString() + "km")
+
+                                        // Calculate the slice size and update the pie chart:
+                                        val pieChart: ProgressBar = stats_progressbar
+                                        val d = currentlyRunDistance / currentGoalAsDouble
+                                        val progress = (d * 100).toInt()
+                                        pieChart.progress = progress
+                                    }
+                                }
 
                         /* fuck this code here
                     if (currentlyRunDistance >= currentGoalAsDouble) {
@@ -179,6 +217,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun compareResult() {
+
+    }
+
+    private fun updateChart() {
+        // Update the text in a center of the chart:
+        var totalvalue = (currentlyRunDistance.toString() + "/" + currentGoalAsDouble)
 
     }
 }

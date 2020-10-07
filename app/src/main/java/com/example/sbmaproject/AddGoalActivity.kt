@@ -21,6 +21,7 @@ class AddGoalActivity : AppCompatActivity() {
 
     var fbAuth = FirebaseAuth.getInstance()
     private val database = Firebase.firestore
+    var distanceDouble: Double = 0.00
     lateinit var distance: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
