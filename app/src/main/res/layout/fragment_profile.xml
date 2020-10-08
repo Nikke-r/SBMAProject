@@ -23,11 +23,14 @@
         android:id="@+id/logOutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="117dp"
         android:backgroundTint="#ffffff"
-        android:textColor="#000000"
         android:text="Log Out"
-        tools:ignore="MissingConstraints" />
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseRecyclerView"
