@@ -3,17 +3,13 @@ package com.example.sbmaproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.example.sbmaproject.classes.Exercise
 import com.example.sbmaproject.classes.Goal
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_add_goal.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
 //THIS CLASS LOOKS LIKE SHIT TOO
@@ -40,9 +36,15 @@ class AddGoalActivity : AppCompatActivity() {
         val user = Firebase.auth.currentUser
         val goalCollection = database.collection("goals")
 
-        var distanceFrom = distanceFromInput.text
-        var distanceYah = distanceFrom.toString()
-        distance = distanceYah
+        var distanceFromKm = distancekmFromInput.text
+        var distanceFromM = distanceMFromInput.text
+        var distanceKm = distanceFromKm.toString()
+        var DistanceKMInt = distanceKm.toDouble()
+        var distanceM = distanceFromM.toString()
+        var DistanceMInt = distanceM.toDouble() * 0.001
+        var finalDistance = DistanceKMInt + DistanceMInt
+
+        distance = finalDistance.toString()
         val date = Date()
 
         val goal = Goal(
