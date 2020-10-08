@@ -17,6 +17,7 @@ import com.example.sbmaproject.classes.Prize
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -81,7 +82,7 @@ class ProfileFragment : Fragment() {
         if (currentUser != null) {
             database.collection("users")
                 .document(currentUser.uid)
-                .collection("exercises")
+                .collection("exercises").orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener {
 
