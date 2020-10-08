@@ -6,16 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProfileFragment">
 
-
     <TextView
         android:id="@+id/usernameTextfield"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="65dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp"
         android:textColor="#000000"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/logOutBtn"
+        app:layout_constraintBottom_toTopOf="@+id/exerciseRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,12 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="117dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="#ffffff"
+        android:textColor="#000000"
         android:text="Log Out"
-        app:layout_constraintBottom_toTopOf="@+id/exerciseRecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextfield" />
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseRecyclerView"
@@ -39,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logOutBtn"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextfield"
         tools:listitem="@layout/exercise_result_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

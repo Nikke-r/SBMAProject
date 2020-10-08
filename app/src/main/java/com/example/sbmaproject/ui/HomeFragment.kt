@@ -14,6 +14,7 @@ import com.example.sbmaproject.AddGoalActivity
 import com.example.sbmaproject.R
 import com.example.sbmaproject.classes.Exercise
 import com.example.sbmaproject.classes.Goal
+import com.example.sbmaproject.classes.Prize
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.lang.String
+import kotlin.properties.Delegates
 
 
 //This whole class looks currently horrible
@@ -34,6 +36,7 @@ class HomeFragment : Fragment() {
     private var currentGoalAsDouble: Double = 0.00
     val user = Firebase.auth.currentUser
     var totalvalue: Double = 0.00
+    private var prizeCountUser = 0
 
     @ExperimentalStdlibApi
     override fun onCreateView(
@@ -56,35 +59,8 @@ class HomeFragment : Fragment() {
             val intent = Intent(getActivity(), AddGoalActivity::class.java)
             getActivity()?.startActivity(intent)
         }
-
         return view
-
     }
-
-    /* NOT USED FETCHES THE DATA DIFFERENTLY
-    private fun fetchGoalData() {
-        val currentUser = fbAuth.currentUser?.uid
-        if (currentUser != null) {
-            Log.d("TAGLOL", currentUser)
-        }
-
-        if (currentUser != null) {
-            database.collection("goals")
-                .whereEqualTo("uid", currentUser)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val goal = document.toObject<Goal>()
-                        Log.d("TAGYOO", goal.distance)
-                        if (goal != null) {
-                            currentGoal.text = goal.distance
-                        } else {
-                            currentGoal.text = "Not goal set"
-                        }
-                    }
-                }
-        }
-    } */
 
     private fun fetchGoalData2() {
         val currentUser = Firebase.auth.currentUser
@@ -99,7 +75,7 @@ class HomeFragment : Fragment() {
                     for (document in it.documents) {
                         val goal = document.toObject<Goal>()
 
-                        //if user has goal set it to home
+                        //if user has goal set it to home graph
                         if (goal != null) {
                             Log.d("TAGYESS", goal.distance.toString())
                             currentGoalAsDouble = goal.distance.toDouble()
@@ -142,8 +118,7 @@ class HomeFragment : Fragment() {
                             currentlyRunDistance += thisDistanceDouble
                         }
                     }
-
-                    //WTF ??
+                    //WTF ?? Fetch the goal info again to compare to exrcs.. im such a bad coder
                     database.collection("users")
                         .document(currentUser.uid)
                         .collection("goals")
@@ -163,12 +138,17 @@ class HomeFragment : Fragment() {
                             totalvalue = currentlyRunDistance / currentGoalAsDouble
 
                             Log.d("TAGFIN", currentGoalAsDouble.toString())
+
+                            //No goal set condition
                             if (currentGoalAsDouble.toString() == "0.0") {
                                 pietotal.text = "No goal set"
+                                cheerText.text = ("Set a new goal to achieve prizes! You have completed " + currentlyRunDistance + " km.")
                                 val pieChart: ProgressBar = stats_progressbar
                                 val d = 0
                                 val progress = (d * 100).toInt()
                                 pieChart.progress = progress
+
+                                //Goal achieved condition stuff
                             } else if (totalvalue >= 1) {
                                 cheerText.text = "You have achieved your goal of " + currentGoalAsDouble.toString() + " km! Set a new higher one now!"
 
@@ -178,9 +158,59 @@ class HomeFragment : Fragment() {
                                 val progress = (d * 100).toInt()
                                 pieChart.progress = progress
 
-                                //delete the goal after its done. currently not doing it only updates
-                                //when user sets a new goal
-                                /*
+                                //ADD A NEW PRIZE TO COLLECTION. OWN FUNCTION?
+                                //Get current prize count
+                                if (currentUser != null) {
+                                    database.collection("users")
+                                        .document(currentUser.uid)
+                                        .collection("prizes")
+                                        .get()
+                                        .addOnSuccessListener {
+
+                                            for (document in it.documents) {
+                                                val prizeNow = document.toObject<Prize>()
+                                                if (prizeNow != null) {
+                                                    prizeCountUser = prizeNow.prizeCount.toInt()
+                                                } else {
+                                                    prizeCountUser = 0
+                                                }
+                                                Log.d("TAGPRI", prizeCountUser.toString())
+
+                                                prizeCountUser = (prizeCountUser + 1)
+                                                Log.d("TAGNPR", prizeCountUser.toString())
+
+                                                val prize = Prize(
+                                                    user?.displayName ?: "",
+                                                    user?.uid ?: "",
+                                                    prizeCountUser.toString(),
+                                                )
+
+                                                //Delete old prize info
+                                                if (user?.uid != null) {
+                                                    database.collection("users")
+                                                        .document(user.uid)
+                                                        .collection("prizes")
+                                                        .get()
+                                                        .addOnSuccessListener {
+
+                                                            for (document in it.documents) {
+                                                                var ref = document.reference
+                                                                ref.delete()
+                                                            }
+
+                                                            database.collection("users")
+                                                                .document(user.uid)
+                                                                .collection("prizes")
+
+                                                            //Add new prize info
+                                                            database.collection("users")
+                                                                .document(user.uid)
+                                                                .collection("prizes")
+                                                                .add(prize)
+
+                                                            //delete the goal after its done. currently not doing it only updates
+                                                            //when user sets a new goal
+
                                 val goal = Goal(
                                     user?.displayName ?: "",
                                     user?.uid ?: "",
@@ -209,7 +239,11 @@ class HomeFragment : Fragment() {
                                                 .collection("goals")
                                                 .add(goal)
                                         }
-                                } */
+                                }
+                                                        }
+                                                }
+                                            }
+                                        }}
                                 } else {
                                     Log.d("TAGPIE", totalvalue.toString())
                                     pietotal.text =
