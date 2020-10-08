@@ -26,9 +26,11 @@
     <string name="verification_text">Are you sure you want to end the exercise?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="current_altitude">Current altitude</string>
+    <string name="altitude_value">%1$.2f m</string>
 
     <!-- Exercise result view -->
-    <string name="post">Post!</string>
+    <string name="post">Save!</string>
     <string name="picture_description">Picture of your route</string>
     <string name="success">Exercise successfully saved!</string>
     <string name="failure">Exercise could not be saved: %1$s</string>
@@ -54,6 +56,7 @@
     <!-- Reset password screen -->
     <string name="reset_password">Reset</string>
     <string name="reset_password_title">Reset password</string>
+    <string name="explanation">Enter your email address and tap the Reset button to get the reset link to your email</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>

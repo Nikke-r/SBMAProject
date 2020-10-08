@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.sbmaproject.LoginActivity
 import com.example.sbmaproject.R
 import com.example.sbmaproject.classes.Exercise
@@ -18,6 +19,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.mapbox.geojson.utils.PolylineUtils
+import com.mapbox.turf.TurfMeasurement
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -53,6 +57,7 @@ class ProfileFragment : Fragment() {
 
         exerciseRecyclerView.layoutManager = layoutManager
         exerciseRecyclerView.adapter = exerciseViewAdapter
+        exerciseRecyclerView.addOnScrollListener(RecyclerViewScrollListener())
     }
 
     private fun fetchExerciseData() {
@@ -67,6 +72,9 @@ class ProfileFragment : Fragment() {
                     for (document in it.documents) {
                         val exercise = document.toObject<Exercise>()
                         exerciseList?.add(exercise!!)
+
+                        val decodedRoute = PolylineUtils.decode(exercise!!.route, 5)
+                        Log.i("DBG", "Decoded route: $decodedRoute")
                     }
 
                     exerciseViewAdapter.notifyDataSetChanged()
@@ -80,6 +88,14 @@ class ProfileFragment : Fragment() {
                         )
                         .show()
                 }
+        }
+    }
+
+    private inner class RecyclerViewScrollListener: RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            Log.i("DBG", "Y: $dy")
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.example.sbmaproject.ui
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
+import android.graphics.Point
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,25 +12,16 @@ import com.example.sbmaproject.classes.Exercise
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.LineString
+import com.jjoe64.graphview.series.DataPoint
 import com.mapbox.geojson.utils.PolylineUtils
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.layers.LineLayer
-import com.mapbox.mapboxsdk.style.layers.Property
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import kotlinx.android.synthetic.main.activity_exercise_result.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToLong
 
 class ExerciseResultActivity : AppCompatActivity() {
 
     private val database = Firebase.firestore
-    private lateinit var map: MapboxMap
-    private lateinit var geoJsonSource: GeoJsonSource
 
     private var distance: String = "0.00"
     private var time: String = "00:00:00"
@@ -39,24 +29,13 @@ class ExerciseResultActivity : AppCompatActivity() {
     private var highestSpeed: Double = 0.00
     private var averageSpeed: Double = 0.00
     private var route: String = ""
+    private lateinit var routePoints: MutableList<com.mapbox.geojson.Point>
+    private lateinit var altitudes: ArrayList<Double>
+    private lateinit var speeds: ArrayList<Double>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Mapbox.getInstance(this, getString(R.string.mapbox_access_token))
-
         setContentView(R.layout.activity_exercise_result)
-
-        mapView.onCreate(savedInstanceState)
-
-        mapView.getMapAsync {
-            map = it
-            map.setStyle(Style.MAPBOX_STREETS) {style ->
-                drawRouteToMap(style)
-            }
-        }
-
-        geoJsonSource = GeoJsonSource("line-source")
 
         val extras = intent.extras
 
@@ -67,6 +46,8 @@ class ExerciseResultActivity : AppCompatActivity() {
             steps = extras.get("steps") as String
             highestSpeed = extras.getDouble("highestSpeed")
             averageSpeed = extras.getDouble("averageSpeed")
+            speeds = extras.get("speeds") as ArrayList<Double>
+            altitudes = extras.get("altitudes") as ArrayList<Double>
         }
 
         distanceResultLabel.text = distance
@@ -75,37 +56,20 @@ class ExerciseResultActivity : AppCompatActivity() {
         stepsResultLabel.text = steps
         averageSpeedResultLabel.text = getString(R.string.speed_value, averageSpeed)
 
+        routePoints = PolylineUtils.decode(route, 5)
+
         postToFbBtn.setOnClickListener {
             postResultsToFirebase()
         }
 
-        geoJsonSource = GeoJsonSource("line-source")
-
-        mapView.getMapAsync {
-            map = it
-            map.setStyle(Style.MAPBOX_STREETS) {style ->
-                drawRouteToMap(style)
-            }
+        cancelBtn.setOnClickListener {
+            val mainActivity = Intent(this, MainActivity::class.java)
+            startActivity(mainActivity)
         }
     }
 
-    private fun drawRouteToMap(style: Style) {
-        style.addSource(geoJsonSource)
-
-        val routePoints = PolylineUtils.decode(route, 5)
-        geoJsonSource.setGeoJson(
-            Feature.fromGeometry(
-                LineString.fromLngLats(routePoints)
-            )
-        )
-
-        style.addLayer(LineLayer("lineLayer", "line-source")
-            .withProperties(
-                PropertyFactory.lineColor(Color.parseColor("#32a852")),
-                PropertyFactory.lineCap(Property.LINE_CAP_ROUND),
-                PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
-                PropertyFactory.lineWidth(8f)
-            ))
+    private fun initializeGraphViews() {
+        Log.i("DBG", "Altitudes: ${altitudes.size}, Points: ${routePoints.size}")
     }
 
     private fun postResultsToFirebase() {

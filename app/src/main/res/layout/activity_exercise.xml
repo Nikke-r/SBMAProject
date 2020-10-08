@@ -10,7 +10,7 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapbox_cameraZoom="12" />
+        app:mapbox_cameraZoom="18" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/exerciseFab"
@@ -33,21 +33,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
             android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/distance"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
                 <TextView
                     android:id="@+id/distanceValueLabel"
@@ -55,29 +56,29 @@
                     android:layout_height="wrap_content"
                     android:text="@string/distance_value"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/time"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
                 <TextView
                     android:id="@+id/timeValueLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
                     android:text="@string/time_value"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
         </LinearLayout>
@@ -85,21 +86,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
             android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/speed"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
                 <TextView
                     android:id="@+id/speedValueLabel"
@@ -107,21 +109,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speed_value"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/steps"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
                 <TextView
                     android:id="@+id/stepsValueLabel"
@@ -129,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/steps_value"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
         </LinearLayout>
@@ -137,21 +139,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
             android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/highest_speed"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
                 <TextView
                     android:id="@+id/highestSpeedValueLabel"
@@ -159,21 +162,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speed_value"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/average_speed"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
                 <TextView
                     android:id="@+id/averageSpeedValueLabel"
@@ -181,21 +184,56 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speed_value"
                     android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/altitudeView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_altitude"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/currentAltitudeLabel"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/altitude_value"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:baselineAligned="false">
+
+            </LinearLayout>
+
         </LinearLayout>
 
+
     </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/snackBar"
+        android:layout_gravity="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
