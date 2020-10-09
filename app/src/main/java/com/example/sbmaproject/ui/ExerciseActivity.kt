@@ -1,9 +1,12 @@
 package com.example.sbmaproject.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -12,6 +15,7 @@ import android.os.*
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.sbmaproject.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -34,6 +38,7 @@ import com.mapbox.mapboxsdk.style.expressions.Expression
 import com.mapbox.mapboxsdk.style.expressions.Expression.*
 import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.Property
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import com.mapbox.turf.TurfMeasurement
@@ -52,7 +57,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
     private val locationCallback = LocationChangeListenerCallback()
 
     //Declare step counter variables
-    private lateinit var sensorManager: SensorManager
+    private var sensorManager: SensorManager? = null
     private var steps: Int = 0
 
     //Declare Arrays/Lists
@@ -79,6 +84,8 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
     companion object {
         const val INTERVAL: Long = 1000
         const val MAX_WAIT_TIME: Long = 5000
+        const val REQUEST_CODE_STEPS = 1000
+        const val REQUEST_CODE_BGL = 2000
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,18 +119,21 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
      * Override functions
      */
 
+    //When the map has loaded this callback will be called
     override fun onMapReady(mapboxMap: MapboxMap) {
         mapBoxMap = mapboxMap
         mapBoxMap.setStyle(Style.MAPBOX_STREETS) {
-           enableLocationComponent(it)
+            enableLocationComponent(it)
             addLineStringToMap(it)
         }
     }
 
+    //If the user denies location permissions for the first time this function will be called
     override fun onExplanationNeeded(permissionsToExplain: MutableList<String>?) {
         Snackbar.make(snackBar, getString(R.string.location_needed), Snackbar.LENGTH_LONG).show()
     }
 
+    //Pass the permission result handling to MapBox's permission manager
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -132,6 +142,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    //If the user grants or denies permissions
     override fun onPermissionResult(granted: Boolean) {
         if (granted) {
             mapBoxMap.getStyle {
@@ -146,6 +157,8 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
      * Private functions
      */
 
+    //After the map has loaded activate the location component of the MapBox
+    //We are using MapBox's permission manager to check the location permissions
     @SuppressLint("MissingPermission")
     private fun enableLocationComponent(style: Style) {
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
@@ -168,6 +181,8 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
         }
     }
 
+    //After we have enabled the location component we initialize the location engine and request
+    //location updates
     @SuppressLint("MissingPermission")
     private fun initializeLocationEngine() {
         locationEngine = LocationEngineProvider.getBestLocationEngine(this)
@@ -184,26 +199,19 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
         )
     }
 
+    //Add the linestring to loaded map to show the users route
     private fun addLineStringToMap(style: Style) {
         style.addSource(lineSource)
-        style.addLayerBelow(LineLayer("lineLayer", "line-source")
+        style.addLayer(LineLayer("lineLayer", "line-source")
             .withProperties(
+                lineColor(Color.parseColor("#00EA71")),
                 lineCap(Property.LINE_CAP_ROUND),
                 lineJoin(Property.LINE_JOIN_ROUND),
-                lineWidth(8f),
-                lineGradient(interpolate(
-                    linear(),
-                    lineProgress(),
-                    stop(0f, rgb(6, 1, 255)),
-                    stop(0.1f, rgb(59, 118, 227)),
-                    stop(0.3f, rgb(7, 238, 251)),
-                    stop(0.5f, rgb(0, 255, 42)),
-                    stop(0.7f, rgb(255, 252, 0)),
-                    stop(1f, rgb(255, 30, 0))
-                ))
-            ), "road-label")
+                lineWidth(8f)
+            ))
     }
 
+    //Change state of the start/stop exercise button
     private fun updateFabButton() {
         if (!running) {
             exerciseFab.setOnClickListener {
@@ -222,20 +230,33 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
         }
     }
 
+    //Stat the step counter
     private fun startStepCounter() {
-        val stepCounter = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-
-        if (stepCounter == null) {
-            Snackbar.make(snackBar, "No step detector", Snackbar.LENGTH_LONG).show()
-        } else {
-            sensorManager.registerListener(
-                StepDetectorCallback(),
-                stepCounter,
-                SensorManager.SENSOR_DELAY_UI
+        if (
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+                REQUEST_CODE_STEPS
             )
+        } else {
+            val stepCounter = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+
+            if (stepCounter == null) {
+                Snackbar.make(snackBar, "No step detector", Snackbar.LENGTH_LONG).show()
+            } else {
+                sensorManager?.registerListener(
+                    StepDetectorCallback(),
+                    stepCounter,
+                    SensorManager.SENSOR_DELAY_UI
+                )
+            }
         }
     }
 
+    //When user press the exit exercise button this will be prompted
     private fun confirmExit() {
         MaterialAlertDialogBuilder(this)
             .setTitle(getString(R.string.exit_exercise))
@@ -245,6 +266,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
             .show()
     }
 
+    //Start the Summary Intent
     private fun finishExercise() {
         val resultIntent = Intent(this, ExerciseResultActivity::class.java)
         val encodedRoute = PolylineUtils.encode(routePoints, 5)
@@ -266,6 +288,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
      * Private classes
      */
 
+    //Listener for location updates
     private inner class LocationChangeListenerCallback: LocationEngineCallback<LocationEngineResult> {
 
         override fun onSuccess(result: LocationEngineResult?) {
@@ -273,13 +296,13 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
 
             if (running) {
                 val point = Point.fromLngLat(location.latitude, location.longitude)
-
+                Log.i("DBG", "Point: $point")
                 routePoints.add(point)
                 speeds.add(location.speed.toDouble())
                 altitudes.add(location.altitude)
 
                 val length = TurfMeasurement.length(routePoints, "meters")
-
+                Log.i("DBG", "Length: $length")
                 totalSpeeds += location.speed.toDouble()
                 averageSpeed = totalSpeeds / speeds.size
 
@@ -298,6 +321,8 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
                         LineString.fromLngLats(routePoints)
                     )
                 )
+
+                Log.i("DBG", "LineSource: $lineSource")
             }
 
             mapBoxMap.locationComponent.forceLocationUpdate(location)
@@ -309,6 +334,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
 
     }
 
+    //Stop watch for the timer
     private inner class StopWatch: Runnable {
         override fun run() {
             val hours = seconds / 3600
@@ -333,18 +359,23 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
 
     }
 
+    //Listener for steps
     private inner class StepDetectorCallback: SensorEventListener {
         override fun onSensorChanged(event: SensorEvent?) {
-            steps += event!!.values[0].toInt()
-            Log.i("DBG", "Steps: $steps")
-            stepsValueLabel.text = steps.toString()
+            Log.i("DBG", "onSensorChanged")
+            if (running) {
+                steps += event!!.values[0].toInt()
+                Log.i("DBG", "Steps: $steps")
+                stepsValueLabel.text = steps.toString()
+            }
         }
 
         override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-            TODO("Not yet implemented")
+            Log.i("DBG", "Accuracy changed: $p1")
         }
     }
 
+    //Listener for the alert dialog
     private inner class AlertDialogListener: DialogInterface.OnClickListener {
         override fun onClick(p0: DialogInterface?, p1: Int) {
             if (p1 == -1) {

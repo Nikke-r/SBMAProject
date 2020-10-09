@@ -16,10 +16,11 @@
         android:id="@+id/exerciseFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_start_exercise"
         app:layout_anchor="@id/bottomSheet"
-        app:layout_anchorGravity="top|center" />
+        app:layout_anchorGravity="top|center"
+        app:srcCompat="@drawable/ic_start_exercise" />
 
     <LinearLayout
         android:id="@+id/bottomSheet"
@@ -202,7 +203,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/current_altitude"
@@ -210,7 +211,7 @@
 
                 <TextView
                     android:id="@+id/currentAltitudeLabel"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/altitude_value"

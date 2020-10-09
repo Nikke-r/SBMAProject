@@ -14,14 +14,19 @@ import com.example.sbmaproject.LoginActivity
 import com.example.sbmaproject.R
 import com.example.sbmaproject.classes.Exercise
 import com.example.sbmaproject.classes.ExerciseRecyclerViewAdapter
+import com.example.sbmaproject.classes.Prize
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.mapbox.geojson.utils.PolylineUtils
 import com.mapbox.turf.TurfMeasurement
+import kotlinx.android.synthetic.main.activity_exercise.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -33,6 +38,7 @@ class ProfileFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var exerciseViewAdapter: ExerciseRecyclerViewAdapter
     private val exerciseList: MutableList<Exercise>? = ArrayList()
+    val currentUser = Firebase.auth.currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +47,26 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-            val usernamefield = view.usernameTextfield
-            usernamefield.text = fbAuth.currentUser?.email ?: "No username"
+        val usernamefield = view.usernameTextfield
+        usernamefield.text = "Hello, " + fbAuth.currentUser?.email ?: "No username"
 
+        fetchPrizeData()
         fetchExerciseData()
+
+        val logOutButton1 = view.logOutBtn
+
+        logOutButton1.setOnClickListener {
+            showMessage(view, "Logging Out...")
+            signOut()
+            val intent = Intent(getActivity(), LoginActivity::class.java)
+            getActivity()?.startActivity(intent)
+        }
+
+        fbAuth.addAuthStateListener {
+            if (fbAuth.currentUser == null) {
+                //ohjaa loginii
+            }
+        }
 
         return view
     }
@@ -66,9 +88,12 @@ class ProfileFragment : Fragment() {
         if (currentUser != null) {
             database.collection("users")
                 .document(currentUser.uid)
-                .collection("exercises")
+                .collection("exercises").orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener {
+
+                    exerciseList?.clear()
+
                     for (document in it.documents) {
                         val exercise = document.toObject<Exercise>()
                         exerciseList?.add(exercise!!)
@@ -91,11 +116,44 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private inner class RecyclerViewScrollListener: RecyclerView.OnScrollListener() {
+    private inner class RecyclerViewScrollListener : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
             Log.i("DBG", "Y: $dy")
+            Log.i("DBG", "$exerciseFab")
         }
+    }
+
+    private fun fetchPrizeData() {
+        if (currentUser != null) {
+            database.collection("users")
+                .document(currentUser.uid)
+                .collection("prizes")
+                .get()
+                .addOnSuccessListener {
+                    for (document in it.documents) {
+                        val prizeNow = document.toObject<Prize>()
+                        var prizeCountUser = ""
+                        if (prizeNow != null) {
+                            prizeCountUser = prizeNow.prizeCount
+                        } else {
+                            prizeCountUser = "0"
+                        }
+                        usernameTextfield.text = ("Hello, " + fbAuth.currentUser?.email
+                            ?: "No username") + ("!\nYou have " + prizeCountUser + " prizes " + "\uD83C\uDFC6")
+                        Log.d("TAGPPR", prizeCountUser.toString())
+
+                    }
+                }
+        }
+    }
+
+    fun signOut() {
+        fbAuth.signOut()
+    }
+
+    fun showMessage(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction("Action", null).show()
     }
 }

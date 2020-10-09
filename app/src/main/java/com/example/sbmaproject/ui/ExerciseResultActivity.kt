@@ -1,10 +1,12 @@
 package com.example.sbmaproject.ui
 
 import android.content.Intent
-import android.graphics.Point
+import android.util.Log
+
+
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.sbmaproject.MainActivity
 import com.example.sbmaproject.R
@@ -13,11 +15,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import com.mapbox.geojson.utils.PolylineUtils
 import kotlinx.android.synthetic.main.activity_exercise_result.*
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.roundToLong
 
 class ExerciseResultActivity : AppCompatActivity() {
 
@@ -29,9 +31,9 @@ class ExerciseResultActivity : AppCompatActivity() {
     private var highestSpeed: Double = 0.00
     private var averageSpeed: Double = 0.00
     private var route: String = ""
-    private lateinit var routePoints: MutableList<com.mapbox.geojson.Point>
-    private lateinit var altitudes: ArrayList<Double>
-    private lateinit var speeds: ArrayList<Double>
+    private var routePoints: MutableList<com.mapbox.geojson.Point> = ArrayList()
+    private var altitudes: ArrayList<Double> = ArrayList()
+    private var speeds: ArrayList<Double> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +58,9 @@ class ExerciseResultActivity : AppCompatActivity() {
         stepsResultLabel.text = steps
         averageSpeedResultLabel.text = getString(R.string.speed_value, averageSpeed)
 
-        routePoints = PolylineUtils.decode(route, 5)
+        initializeGraphViews()
 
-        postToFbBtn.setOnClickListener {
+        postGoalButton.setOnClickListener {
             postResultsToFirebase()
         }
 
@@ -69,7 +71,32 @@ class ExerciseResultActivity : AppCompatActivity() {
     }
 
     private fun initializeGraphViews() {
-        Log.i("DBG", "Altitudes: ${altitudes.size}, Points: ${routePoints.size}")
+        val altitudeLineGraph = LineGraphSeries<DataPoint>()
+        val speedLineGraph = LineGraphSeries<DataPoint>()
+        routePoints = PolylineUtils.decode(route, 5)
+
+        Log.i("DBG", "routePoints: ${routePoints.size}, altitudes: ${altitudes.size}, speeds: ${speeds.size}")
+        if (routePoints.size > 0) {
+            for ((altitudeIndex, altitude) in altitudes.withIndex()) {
+                //val length = TurfMeasurement.length(routePoints.take(altitudeIndex), "kilometers")
+                val length = 0.0
+                val dataPoint = DataPoint(length, altitude)
+                altitudeLineGraph.appendData(dataPoint, false, 100000)
+            }
+
+            for ((speedIndex, speed) in speeds.withIndex()) {
+                //val length = TurfMeasurement.length(routePoints.take(speedIndex), "kilometers")
+                val length = 0.0
+                val dataPoint = DataPoint(length, speed)
+                speedLineGraph.appendData(dataPoint, false, 100000)
+            }
+        }
+
+        altitudesGraphView.title = "Altitudes"
+        altitudesGraphView.addSeries(altitudeLineGraph)
+
+        speedsGraphView.title = "Speed"
+        speedsGraphView.addSeries(speedLineGraph)
     }
 
     private fun postResultsToFirebase() {

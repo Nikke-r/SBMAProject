@@ -24,7 +24,8 @@ class ExerciseRecyclerViewAdapter(
 
         if (exercise != null) {
             holder.itemView.displayName.text = exercise.username
-            holder.itemView.dateText.text = exercise.date.toString()
+            holder.itemView.dateText.text = exercise.date.toString().replaceAfter("GMT", "").replace("GMT", "")
+            holder.itemView.distanceText.text = exercise.distance
         }
     }
 

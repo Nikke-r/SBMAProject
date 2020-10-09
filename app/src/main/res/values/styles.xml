@@ -1,10 +1,11 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <style name="AppTheme" parent="Base.Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-        <!--<item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>-->
+        <item name="colorPrimary">#00EA71</item>
+        <item name="colorPrimaryDark">#00EA71</item>
+        <item name="colorAccent">#00EA71</item>
+        <item name="android:fontFamily">@fontt/SansitaSwashed.ttf</item>
     </style>
 
 </resources>
