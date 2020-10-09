@@ -41,6 +41,9 @@ class AddGoalActivity : AppCompatActivity() {
         var distanceKm = distanceFromKm.toString()
         var DistanceKMInt = distanceKm.toDouble()
         var distanceM = distanceFromM.toString()
+        if (distanceM == "") {
+            distanceM = "0"
+        }
         var DistanceMInt = distanceM.toDouble() * 0.001
         var finalDistance = DistanceKMInt + DistanceMInt
 

@@ -140,8 +140,8 @@ class ProfileFragment : Fragment() {
                         } else {
                             prizeCountUser = "0"
                         }
-                        usernameTextfield.text = ("Hello, " + fbAuth.currentUser?.email
-                            ?: "No username") + ("!\nYou have " + prizeCountUser + " prizes " + "\uD83C\uDFC6")
+                        usernameTextfield.text = ("Hello, " + fbAuth.currentUser?.email ?: "No username")
+                        prizeText.text = ("You have " + prizeCountUser + " prizes " +  "\uD83C\uDFC6")
                         Log.d("TAGPPR", prizeCountUser.toString())
 
                     }
