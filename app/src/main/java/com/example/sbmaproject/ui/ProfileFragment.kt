@@ -60,6 +60,7 @@ class ProfileFragment : Fragment() {
             signOut()
             val intent = Intent(getActivity(), LoginActivity::class.java)
             getActivity()?.startActivity(intent)
+            activity?.finish()
         }
 
         fbAuth.addAuthStateListener {
@@ -79,7 +80,6 @@ class ProfileFragment : Fragment() {
 
         exerciseRecyclerView.layoutManager = layoutManager
         exerciseRecyclerView.adapter = exerciseViewAdapter
-        exerciseRecyclerView.addOnScrollListener(RecyclerViewScrollListener())
     }
 
     private fun fetchExerciseData() {
@@ -88,7 +88,8 @@ class ProfileFragment : Fragment() {
         if (currentUser != null) {
             database.collection("users")
                 .document(currentUser.uid)
-                .collection("exercises").orderBy("date", Query.Direction.DESCENDING)
+                .collection("exercises")
+                .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener {
 
@@ -113,15 +114,6 @@ class ProfileFragment : Fragment() {
                         )
                         .show()
                 }
-        }
-    }
-
-    private inner class RecyclerViewScrollListener : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-
-            Log.i("DBG", "Y: $dy")
-            Log.i("DBG", "$exerciseFab")
         }
     }
 

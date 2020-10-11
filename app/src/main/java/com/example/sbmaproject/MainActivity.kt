@@ -35,16 +35,19 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
 
                 R.id.feed -> {
+                    newExerciseBtn.hide()
                     changeFragment(feedFragment)
                     true
                 }
 
                 R.id.home -> {
+                    newExerciseBtn.show()
                     changeFragment(homeFragment)
                     true
                 }
 
                 R.id.profile -> {
+                    newExerciseBtn.hide()
                     changeFragment(profileFragment)
                     true
                 }

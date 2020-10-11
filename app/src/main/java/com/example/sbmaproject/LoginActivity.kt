@@ -23,7 +23,6 @@ class LoginActivity: AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_login)
-            title = "KotlinApp"
 
             //usernameF = findViewById(R.id.userNameField)
             //passwordF = findViewById(R.id.passwordField)

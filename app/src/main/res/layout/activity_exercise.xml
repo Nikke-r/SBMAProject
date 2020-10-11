@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/distance_value"
                     android:textAlignment="center"
+                    android:textColor="#4CAF50"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
@@ -79,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/time_value"
                     android:textAlignment="center"
+                    android:textColor="#4CAF50"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
@@ -110,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speed_value"
                     android:textAlignment="center"
+                    android:textColor="#4CAF50"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
@@ -132,6 +135,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/steps_value"
                     android:textAlignment="center"
+                    android:textColor="#4CAF50"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
@@ -163,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speed_value"
                     android:textAlignment="center"
+                    android:textColor="#4CAF50"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
@@ -185,6 +190,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/speed_value"
                     android:textAlignment="center"
+                    android:textColor="#4CAF50"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
             </LinearLayout>
 
@@ -215,6 +221,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/altitude_value"
+                    android:textColor="#4CAF50"
                     android:textAlignment="center" />
             </LinearLayout>
 

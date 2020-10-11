@@ -30,24 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:backgroundTint="@color/colorPrimaryDark"/>
 
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/speedsGraphView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/altitudesGraphView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/altitudesGraphView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/postGoalButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"

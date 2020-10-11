@@ -48,9 +48,9 @@ class HomeFragment : Fragment() {
         Log.i("DBG", "onCreateView")
 
         //fetch currently run distance and goal from fs
-        /*fetchGoalData2()
+        fetchGoalData2()
         fetchCurrentExerciseDistance()
-        compareResult()*/
+        compareResult()
         //updateChart()
 
         val setGoalButton = view.setGoal

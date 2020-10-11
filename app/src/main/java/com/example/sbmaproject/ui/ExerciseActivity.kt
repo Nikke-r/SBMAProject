@@ -101,7 +101,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
         averageSpeedValueLabel.text = getString(R.string.speed_value, 0.0)
         currentAltitudeLabel.text = getString(R.string.altitude_value, 0.0)
 
-        lineSource = GeoJsonSource("line-source")
+        lineSource = GeoJsonSource("line-source-id")
 
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -202,7 +202,7 @@ class ExerciseActivity : AppCompatActivity(), OnMapReadyCallback, PermissionsLis
     //Add the linestring to loaded map to show the users route
     private fun addLineStringToMap(style: Style) {
         style.addSource(lineSource)
-        style.addLayer(LineLayer("lineLayer", "line-source")
+        style.addLayer(LineLayer("line-layer-id", "line-source-id")
             .withProperties(
                 lineColor(Color.parseColor("#00EA71")),
                 lineCap(Property.LINE_CAP_ROUND),
